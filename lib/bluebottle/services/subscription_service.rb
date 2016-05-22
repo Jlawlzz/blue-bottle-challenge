@@ -17,6 +17,12 @@ module BlueBottle
         end
       end
 
+      def find_subscriptions_by_coffee(coffee)
+        @data_store.subscriptions.select do |subscription|
+          subscription.coffee_name == coffee.name
+        end
+      end
+
     end
   end
 end
