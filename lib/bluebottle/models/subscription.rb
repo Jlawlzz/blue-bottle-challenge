@@ -6,13 +6,13 @@ module BlueBottle
       attr_accessor :id,
                     :customer,
                     :coffee,
-                    :active
+                    :status
 
       def initialize(id, customer, coffee)
         @id = id
         @customer = customer
         @coffee = coffee
-        @active = true
+        @status = 'active'
       end
 
       def customer_name
