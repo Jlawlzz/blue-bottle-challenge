@@ -1,5 +1,4 @@
 require 'active_support/all'
-require 'pry'
 
 module BlueBottle
   module Models
@@ -19,7 +18,7 @@ module BlueBottle
       def full_name
         "#{first_name} #{last_name}"
       end
-      
+
     end
   end
 end
