@@ -26,6 +26,22 @@ module BlueBottle
       def coffee_type
         coffee.type
       end
+
+      def pause
+        @status = 'paused'
+      end
+
+      def cancel
+        @status = 'cancelled'
+      end
+
+      def active?
+        @status == 'active'
+      end
+
+      def paused?
+        @status == 'paused'
+      end
     end
   end
 end

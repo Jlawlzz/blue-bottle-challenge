@@ -31,14 +31,16 @@ describe BlueBottle::CodingQuestion do
     end
 
     it 'Sally should have one active subscription' do
-      expect(subscription_service.find_active_subscriptions_by_customer(sally).count).to eql(1)
-      expect(subscription_service.find_active_subscriptions_by_customer(sally)[0].coffee_name).to eql('Bella Donovan')
-      expect(subscription_service.find_active_subscriptions_by_customer(sally)[0].coffee_type).to eql('blend')
+      sally_active_subcriptions = subscription_service.find_subscriptions_by_customer(sally, 'active')
+      expect(sally_active_subcriptions.count).to eql(1)
+      expect(sally_active_subcriptions[0].coffee_name).to eql('Bella Donovan')
+      expect(sally_active_subcriptions[0].coffee_type).to eql('blend')
     end
 
     it 'Bella Donovan should have one customer subscribed to it' do
-      expect(subscription_service.find_subscriptions_by_coffee(bella_donovan).count).to eql(1)
-      expect(subscription_service.find_subscriptions_by_coffee(bella_donovan)[0].customer_name).to eql('Sally Fields')
+      bella_donovan_subscribers = subscription_service.find_subscriptions_by_coffee(bella_donovan)
+      expect(bella_donovan_subscribers.count).to eql(1)
+      expect(bella_donovan_subscribers[0].customer_name).to eql('Sally Fields')
     end
   end
 
@@ -49,21 +51,24 @@ describe BlueBottle::CodingQuestion do
     end
 
     it 'Liv should have one active subscription' do
-      expect(subscription_service.find_active_subscriptions_by_customer(liv).count).to eql(1)
-      expect(subscription_service.find_active_subscriptions_by_customer(liv)[0].coffee_name).to eql('Hayes Valley Espresso')
-      expect(subscription_service.find_active_subscriptions_by_customer(liv)[0].coffee_type).to eql('blend')
+      liv_active_subscriptions = subscription_service.find_subscriptions_by_customer(liv, 'active')
+      expect(liv_active_subscriptions.count).to eql(1)
+      expect(liv_active_subscriptions[0].coffee_name).to eql('Hayes Valley Espresso')
+      expect(liv_active_subscriptions[0].coffee_type).to eql('blend')
     end
 
     it 'Elijah should have one active subscription' do
-      expect(subscription_service.find_active_subscriptions_by_customer(elijah).count).to eql(1)
-      expect(subscription_service.find_active_subscriptions_by_customer(elijah)[0].coffee_name).to eql('Hayes Valley Espresso')
-      expect(subscription_service.find_active_subscriptions_by_customer(elijah)[0].coffee_type).to eql('blend')
+      elijah_active_subscriptions = subscription_service.find_subscriptions_by_customer(elijah, 'active')
+      expect(elijah_active_subscriptions.count).to eql(1)
+      expect(elijah_active_subscriptions[0].coffee_name).to eql('Hayes Valley Espresso')
+      expect(elijah_active_subscriptions[0].coffee_type).to eql('blend')
     end
 
     it 'Hayes Valley Espresso should have two customers subscribed to it' do
-      expect(subscription_service.find_subscriptions_by_coffee(hayes_valley_espresso).count).to eql(2)
-      expect(subscription_service.find_subscriptions_by_coffee(hayes_valley_espresso)[0].customer_name).to eql('Liv Tyler')
-      expect(subscription_service.find_subscriptions_by_coffee(hayes_valley_espresso)[1].customer_name).to eql('Elijah Wood')
+      hayes_valley_subscribers = subscription_service.find_subscriptions_by_coffee(hayes_valley_espresso)
+      expect(hayes_valley_subscribers.count).to eql(2)
+      expect(hayes_valley_subscribers[0].customer_name).to eql('Liv Tyler')
+      expect(hayes_valley_subscribers[1].customer_name).to eql('Elijah Wood')
     end
   end
 
@@ -75,11 +80,11 @@ describe BlueBottle::CodingQuestion do
       end
 
       it 'Liv should have zero active subscriptions' do
-        expect(subscription_service.find_active_subscriptions_by_customer(liv).count).to eql(0)
+        expect(subscription_service.find_subscriptions_by_customer(liv, 'active').count).to eql(0)
       end
 
       it 'Liv should have a paused subscription' do
-        expect(subscription_service.find_paused_subscriptions_by_customer(liv).count).to eql(1)
+        expect(subscription_service.find_subscriptions_by_customer(liv, 'paused').count).to eql(1)
       end
 
       it 'Bella Donovan should have one customers subscribed to it' do
@@ -96,7 +101,7 @@ describe BlueBottle::CodingQuestion do
       end
 
       it 'Jack should have zero active subscriptions' do
-        expect(subscription_service.find_active_subscriptions_by_customer(jack).count).to eql(0)
+        expect(subscription_service.find_subscriptions_by_customer(jack, 'active').count).to eql(0)
       end
 
       it 'Bella Donovan should have zero active customers subscribed to it' do
@@ -109,9 +114,10 @@ describe BlueBottle::CodingQuestion do
         end
 
         it 'Bella Donovan has two subscriptions, one active, one cancelled' do
-          expect(subscription_service.find_subscriptions_by_coffee(bella_donovan).count).to eql(2)
-          expect(subscription_service.find_subscriptions_by_coffee(bella_donovan)[0].status).to eql('cancelled')
-          expect(subscription_service.find_subscriptions_by_coffee(bella_donovan)[1].status).to eql('active')
+          bella_donovan_subscribers = subscription_service.find_subscriptions_by_coffee(bella_donovan)
+          expect(bella_donovan_subscribers.count).to eql(2)
+          expect(bella_donovan_subscribers[0].status).to eql('cancelled')
+          expect(bella_donovan_subscribers[1].status).to eql('active')
         end
 
       end
