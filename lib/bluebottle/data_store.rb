@@ -4,12 +4,17 @@ module BlueBottle
     def initialize
       @store = {
         customers: [],
-        coffees: []
+        coffees: [],
+        subscriptions: []
       }
     end
 
     def customers
        @store[:customers]
+    end
+
+    def subscriptions
+      @store[:subscriptions]
     end
 
     def add_coffee(coffee)
@@ -18,6 +23,10 @@ module BlueBottle
 
     def add_customer(customer)
       @store[:customers] << customer
+    end
+
+    def add_subscription(subscription)
+      @store[:subscriptions] << subscription
     end
   end
 end
