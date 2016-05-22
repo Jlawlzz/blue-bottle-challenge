@@ -28,19 +28,19 @@ module BlueBottle
       end
 
       def pause
-        status = 'paused'
+        @status = 'paused'
       end
 
       def cancel
-        status = 'cancelled'
+        @status = 'cancelled'
       end
 
       def active?
-        status == 'active'
+        @status == 'active'
       end
 
       def paused?
-        status == 'paused'
+        @status == 'paused'
       end
     end
   end
