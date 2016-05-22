@@ -105,10 +105,13 @@ describe BlueBottle::CodingQuestion do
 
       context 'when Jack resubscribes to Bella Donovan' do
         before do
-          # Establish subscription here
+          subscription_service.new_subscription(2, jack, bella_donovan)
         end
 
-        xit 'Bella Donovan has two subscriptions, one active, one cancelled' do
+        it 'Bella Donovan has two subscriptions, one active, one cancelled' do
+          expect(subscription_service.find_subscriptions_by_coffee(bella_donovan).count).to eql(2)
+          expect(subscription_service.find_subscriptions_by_coffee(bella_donovan)[0].status).to eql('cancelled')
+          expect(subscription_service.find_subscriptions_by_coffee(bella_donovan)[1].status).to eql('active')
         end
 
       end
@@ -118,10 +121,12 @@ describe BlueBottle::CodingQuestion do
   context 'Cancelling while Paused:' do
     context 'when Jack tries to cancel his paused subscription to Bella Donovan,' do
       before do
-        # Establish paused subscription here
+        subscription_service.new_subscription(1, jack, bella_donovan)
+        subscription_service.pause_subscription(jack, bella_donovan)
       end
 
-      xit 'Jack raises an exception preventing him from cancelling a paused subscription' do
+      it 'Jack raises an exception preventing him from cancelling a paused subscription' do
+        expect(subscription_service.cancel_subscription(jack, bella_donovan)).to eql('Sorry, you cannot cancel a paused subscription.')
       end
     end
   end

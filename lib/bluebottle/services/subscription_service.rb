@@ -19,10 +19,28 @@ module BlueBottle
       end
 
       def cancel_subscription(customer, coffee)
-        subscription = find_active_subscriptions_by_customer(customer).find do |subscription|
+        subscription = find_any_subscriptions_by_customer(customer).find do |subscription|
           subscription.coffee_name == coffee.name
         end
+        begin
+          subscription.status == 'active' ? set_subscription_to_canceled(subscription) : refuse_cancelation
+        rescue Exception
+          'Sorry, you cannot cancel a paused subscription.'
+        end
+      end
+
+      def set_subscription_to_canceled(subscription)
         subscription.status = 'cancelled'
+      end
+
+      def refuse_cancelation
+        raise Exception.new('subscription paused')
+      end
+
+      def find_any_subscriptions_by_customer(customer)
+        @data_store.subscriptions.select do |subscription|
+          (subscription.customer_name == customer.full_name)
+        end
       end
 
       def find_active_subscriptions_by_customer(customer)
@@ -30,6 +48,7 @@ module BlueBottle
           (subscription.customer_name == customer.full_name) && (subscription.status == 'active')
         end
       end
+
 
       def find_paused_subscriptions_by_customer(customer)
         @data_store.subscriptions.select do |subscription|
