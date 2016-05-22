@@ -1,7 +1,5 @@
 # Blue Bottle Coding Exercise
 
-# Blue Bottle Coding Exercise
-
 ## My Implementation
 
 1. Data Store:
