@@ -36,7 +36,9 @@ describe BlueBottle::CodingQuestion do
       expect(subscription_service.find_active_subscriptions_by_customer(sally)[0].coffee_type).to eql('blend')
     end
 
-    xit 'Bella Donovan should have one customer subscribed to it' do
+    it 'Bella Donovan should have one customer subscribed to it' do
+      expect(subscription_service.find_subscriptions_by_coffee(bella_donovan).count).to eql(1)
+      expect(subscription_service.find_subscriptions_by_coffee(bella_donovan)[0].customer_name).to eql('Sally Fields')
     end
   end
 
