@@ -12,14 +12,14 @@ module BlueBottle
       end
 
       def pause_subscription(customer, coffee)
-        subscription = find_active_subscriptions_by_customer(customer).find do |subscription|
+        subscription = @data_store.find_active_subscriptions_by_customer(customer).find do |subscription|
           subscription.coffee_name == coffee.name
         end
         subscription.pause
       end
 
       def cancel_subscription(customer, coffee)
-        subscription = find_any_subscriptions_by_customer(customer).find do |subscription|
+        subscription = @data_store.find_all_subscriptions_by_customer(customer).find do |subscription|
           subscription.coffee_name == coffee.name
         end
         cancel_switch(subscription)
@@ -39,49 +39,19 @@ module BlueBottle
 
       def find_subscriptions_by_customer(customer, status = 'any')
         if status == 'active'
-          find_active_subscriptions_by_customer(customer)
+          @data_store.find_active_subscriptions_by_customer(customer)
         elsif status == 'paused'
-          find_paused_subscriptions_by_customer(customer)
+          @data_store.find_paused_subscriptions_by_customer(customer)
         else
-          find_any_subscriptions_by_customer(customer)
-        end
-      end
-
-      def find_any_subscriptions_by_customer(customer)
-        @data_store.subscriptions.select do |subscription|
-          (subscription.customer_name == customer.full_name)
-        end
-      end
-
-      def find_active_subscriptions_by_customer(customer)
-        @data_store.subscriptions.select do |subscription|
-          (subscription.customer_name == customer.full_name) && (subscription.active?)
-        end
-      end
-
-      def find_paused_subscriptions_by_customer(customer)
-        @data_store.subscriptions.select do |subscription|
-          (subscription.customer_name == customer.full_name) && (subscription.paused?)
+          @data_store.find_any_subscriptions_by_customer(customer)
         end
       end
 
       def find_subscriptions_by_coffee(coffee, status = 'any')
         if status == 'active'
-          find_active_subscriptions_by_coffee(coffee)
+          @data_store.find_active_subscriptions_by_coffee(coffee)
         else
-          find_all_subscriptions_by_coffee(coffee)
-        end
-      end
-
-      def find_all_subscriptions_by_coffee(coffee)
-        @data_store.subscriptions.select do |subscription|
-          subscription.coffee_name == coffee.name
-        end
-      end
-
-      def find_active_subscriptions_by_coffee(coffee)
-        @data_store.subscriptions.select do |subscription|
-          subscription.coffee_name == coffee.name && subscription.active?
+          @data_store.find_all_subscriptions_by_coffee(coffee)
         end
       end
     end

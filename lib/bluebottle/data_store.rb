@@ -29,6 +29,35 @@ module BlueBottle
       @store[:subscriptions] << subscription
     end
 
-    
+    def find_all_subscriptions_by_customer(customer)
+      @store[:subscriptions].select do |subscription|
+        (subscription.customer_name == customer.full_name)
+      end
+    end
+
+    def find_active_subscriptions_by_customer(customer)
+      @store[:subscriptions].select do |subscription|
+        (subscription.customer_name == customer.full_name) && (subscription.active?)
+      end
+    end
+
+    def find_paused_subscriptions_by_customer(customer)
+      @store[:subscriptions].select do |subscription|
+        (subscription.customer_name == customer.full_name) && (subscription.paused?)
+      end
+    end
+
+    def find_all_subscriptions_by_coffee(coffee)
+      @store[:subscriptions].select do |subscription|
+        subscription.coffee_name == coffee.name
+      end
+    end
+
+    def find_active_subscriptions_by_coffee(coffee)
+      @store[:subscriptions].select do |subscription|
+        subscription.coffee_name == coffee.name && subscription.active?
+      end
+    end
+
   end
 end
