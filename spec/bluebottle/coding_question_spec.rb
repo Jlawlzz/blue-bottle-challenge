@@ -60,7 +60,10 @@ describe BlueBottle::CodingQuestion do
       expect(subscription_service.find_active_subscriptions_by_customer(elijah)[0].coffee_type).to eql('blend')
     end
 
-    xit 'Hayes Valley Espresso should have two customers subscribed to it' do
+    it 'Hayes Valley Espresso should have two customers subscribed to it' do
+      expect(subscription_service.find_subscriptions_by_coffee(hayes_valley_espresso).count).to eql(2)
+      expect(subscription_service.find_subscriptions_by_coffee(hayes_valley_espresso)[0].customer_name).to eql('Liv Tyler')
+      expect(subscription_service.find_subscriptions_by_coffee(hayes_valley_espresso)[1].customer_name).to eql('Elijah Wood')
     end
   end
 
