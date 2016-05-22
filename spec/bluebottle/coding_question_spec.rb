@@ -44,16 +44,26 @@ describe BlueBottle::CodingQuestion do
 
   context 'Liv and Elijah subscribe to Hayes Valley Espresso' do
     before do
-      # Establish subscriptions here
+      subscription_service.new_subscription(2, liv, hayes_valley_espresso)
+      subscription_service.new_subscription(3, elijah, hayes_valley_espresso)
     end
 
-    xit 'Liv should have one active subscription' do
+    it 'Liv should have one active subscription' do
+      expect(subscription_service.find_active_subscriptions_by_customer(liv).count).to eql(1)
+      expect(subscription_service.find_active_subscriptions_by_customer(liv)[0].coffee_name).to eql('Hayes Valley Espresso')
+      expect(subscription_service.find_active_subscriptions_by_customer(liv)[0].coffee_type).to eql('blend')
     end
 
-    xit 'Elijah should have one active subscription' do
+    it 'Elijah should have one active subscription' do
+      expect(subscription_service.find_active_subscriptions_by_customer(elijah).count).to eql(1)
+      expect(subscription_service.find_active_subscriptions_by_customer(elijah)[0].coffee_name).to eql('Hayes Valley Espresso')
+      expect(subscription_service.find_active_subscriptions_by_customer(elijah)[0].coffee_type).to eql('blend')
     end
 
-    xit 'Hayes Valley Espresso should have two customers subscribed to it' do
+    it 'Hayes Valley Espresso should have two customers subscribed to it' do
+      expect(subscription_service.find_subscriptions_by_coffee(hayes_valley_espresso).count).to eql(2)
+      expect(subscription_service.find_subscriptions_by_coffee(hayes_valley_espresso)[0].customer_name).to eql('Liv Tyler')
+      expect(subscription_service.find_subscriptions_by_coffee(hayes_valley_espresso)[1].customer_name).to eql('Elijah Wood')
     end
   end
 
