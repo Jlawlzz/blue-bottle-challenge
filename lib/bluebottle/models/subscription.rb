@@ -5,7 +5,8 @@ module BlueBottle
     class Subscription
       attr_accessor :id,
                     :customer,
-                    :coffee
+                    :coffee,
+                    :active
 
       def initialize(id, customer, coffee)
         @id = id
