@@ -1,21 +1,27 @@
 # Blue Bottle Coding Exercise
 
-## My Implementation
+## Installation
 
-1. Data Store:
-  - The data store is in charge of processes involved with the retrieval and creation of data, these are lightweight on logic and not involved with manipulating pre existing data.
-  - As a user, the data store is accessed through the subscription service.
-    - An alternative approach would have been to treat the data store and subscription service as separate entities to be accessed and manipulated from a model or controller (which would be simulated through setup during testing). Although I think this would have been an acceptable approach, without context I made the decision to treat this app as its own environment, accessing the data store through the subscription service allows for a more wholesome user experience.
+- clone this repository
+- install bundler (http://bundler.io/)
+- install Ruby 2.1 or higher
+- run ```bundle install```
+- run ```bundle exec rspec``` from the root of this repository
 
-2. Subscription Service:
-  - The subscription service is in charge of logic heavy tasks like manipulating data from an object fetched by the data store, and dictating data store behaviour based off of user input.  
+## Problem to Solve
 
-3. Subscription Model:
-  - The subscription model follows the pattern set by the customer and coffee models. Its methods allow for outside processes to inquire about its state, as well as set the status of the subscription ('active', 'paused', 'cancelled').
+This exercise asks you to implement a simple system to model subscribing to receive a coffee. The system should support:
 
-### Things I like about this implementation:
-  - Its functionality is easily navigated through the Subscription Service, as a user there is no need to bounce around files from the terminal to achieve what is detailed in the tests.
-  - Assuming the user only has access to the methods within subscription_service.rb, data is *relatively* protected from unwanted tampering.
+- a customer subscribing to receive a coffee
+- a customer cancelling a coffee subscription
+- a customer pausing a coffee subscription
 
-### Things I do not like about this implementation:
-  - If this app is intended to be part of a bigger system, it is less flexible than if the subscription service and data store were to be treated separately, with their interaction being delegated by a higher up process.
+The ```coding_question_spec.rb``` file outlines in detail the expected behavior through the use of tests. That means when all the tests have expectations and pass, you're done! The test examples have been marked as pending with `xit` -- to make them active, just remove the `x` before the `it` in each example.
+
+All the files you need to implement a solution are there except for one ... you'll need to implement the `Subscription` model. However, you may edit (or add) *any* files in the repository to help you solve the problem. The one exception is that you should not need to adjust the description of each test example. The rules are open-ended on purpose. We want you to use your imagination and practical decision-making to make the tests expecations pass.
+
+The exercise should take an estimated 1-3 hours to complete.
+
+Please use source control for your code and attempt to organize your solution into logical commits. Once complete, please send your a link to your solution repository via email (scott@bluebottlecoffee.com). Along with the code, please include a written introduction to your solution, that explains the design and implementation decisions you made and why. NOTE: If you are uncomfortable posting this as a public repository and don't have a private account, please zip up the repository send by email.
+
+If you have any questions, want to pair with a Blue Bottle engineer, or have trouble running the specs, please let us know.
