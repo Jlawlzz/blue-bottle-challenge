@@ -11,6 +11,7 @@ module BlueBottle
         @id = id
         @customer = customer
         @coffee = coffee
+        @active = true
       end
 
       def customer_name
