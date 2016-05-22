@@ -15,26 +15,36 @@ module BlueBottle
         subscription = find_active_subscriptions_by_customer(customer).find do |subscription|
           subscription.coffee_name == coffee.name
         end
-        subscription.status = 'paused'
+        subscription.pause
       end
 
       def cancel_subscription(customer, coffee)
         subscription = find_any_subscriptions_by_customer(customer).find do |subscription|
           subscription.coffee_name == coffee.name
         end
+        cancel_switch(subscription)
+      end
+
+      def cancel_switch(subscription)
         begin
-          subscription.status == 'active' ? set_subscription_to_canceled(subscription) : refuse_cancelation
+          subscription.active? ? subscription.cancel : raise_cancel_exception
         rescue Exception
           'Sorry, you cannot cancel a paused subscription.'
         end
       end
 
-      def set_subscription_to_canceled(subscription)
-        subscription.status = 'cancelled'
+      def raise_cancel_exception
+        raise Exception.new('subscription paused')
       end
 
-      def refuse_cancelation
-        raise Exception.new('subscription paused')
+      def find_subscriptions_by_customer(customer, status = 'any')
+        if status == 'active'
+          find_active_subscriptions_by_customer(customer)
+        elsif status == 'paused'
+          find_paused_subscriptions_by_customer(customer)
+        else
+          find_any_subscriptions_by_customer(customer)
+        end
       end
 
       def find_any_subscriptions_by_customer(customer)
@@ -45,14 +55,13 @@ module BlueBottle
 
       def find_active_subscriptions_by_customer(customer)
         @data_store.subscriptions.select do |subscription|
-          (subscription.customer_name == customer.full_name) && (subscription.status == 'active')
+          (subscription.customer_name == customer.full_name) && (subscription.active?)
         end
       end
 
-
       def find_paused_subscriptions_by_customer(customer)
         @data_store.subscriptions.select do |subscription|
-          (subscription.customer_name == customer.full_name) && (subscription.status == 'paused')
+          (subscription.customer_name == customer.full_name) && (subscription.paused?)
         end
       end
 
@@ -72,7 +81,7 @@ module BlueBottle
 
       def find_active_subscriptions_by_coffee(coffee)
         @data_store.subscriptions.select do |subscription|
-          subscription.coffee_name == coffee.name && subscription.status == 'active'
+          subscription.coffee_name == coffee.name && subscription.active?
         end
       end
     end

@@ -28,5 +28,7 @@ module BlueBottle
     def add_subscription(subscription)
       @store[:subscriptions] << subscription
     end
+
+    
   end
 end
